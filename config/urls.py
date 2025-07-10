@@ -22,5 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', todo_views.index, name='index'),
     path('<int:task_id>/', todo_views.detail, name='detail'),
+<<<<<<< HEAD
     path('<int:task_id>/update', todo_views.update, name='update'),
+=======
+    path('<int:task_id>/delete', todo_views.delete, name='delete'),
+>>>>>>> abc08fe760ae64d1fc00fdff57b2eab5cd3323e8
 ]
