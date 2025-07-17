@@ -1,25 +1,40 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.db.models import Q
 from django.utils.timezone import make_aware
 from django.utils.dateparse import parse_datetime
 from todo.models import Task
 
+from django.db.models import Q # Qオブジェクトをインポート
 
 def index(request):
     if request.method == 'POST':
         task = Task(title=request.POST['title'], due_at=make_aware(parse_datetime(request.POST['due_at'])))
         task.save()
 
+    tasks = Task.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        tasks = tasks.filter(Q(title__icontains=query))
+
+    status = request.GET.get('status')
+    if status == 'completed':
+        tasks = tasks.filter(is_completed=True)
+    elif status == 'incomplete':
+        tasks = tasks.filter(is_completed=False)
+
+
     if request.GET.get('order') == 'due':
-        tasks = Task.objects.order_by('due_at')
+        tasks = tasks.order_by('due_at')
     else:
-        tasks = Task.objects.order_by('-posted_at')
+        tasks = tasks.order_by('-posted_at')
 
     context = {
-        'tasks': tasks
+        'tasks': tasks,
+        'query': query 
     }
     return render(request, 'todo/index.html', context)
-
 
 def detail(request, task_id):
     try:
