@@ -5,8 +5,6 @@ from django.utils.timezone import make_aware
 from django.utils.dateparse import parse_datetime
 from todo.models import Task
 
-from django.db.models import Q # Qオブジェクトをインポート
-
 def index(request):
     if request.method == 'POST':
         task = Task(title=request.POST['title'], due_at=make_aware(parse_datetime(request.POST['due_at'])))
@@ -17,12 +15,6 @@ def index(request):
     query = request.GET.get('q')
     if query:
         tasks = tasks.filter(Q(title__icontains=query))
-
-    status = request.GET.get('status')
-    if status == 'completed':
-        tasks = tasks.filter(is_completed=True)
-    elif status == 'incomplete':
-        tasks = tasks.filter(is_completed=False)
 
 
     if request.GET.get('order') == 'due':
