@@ -28,6 +28,14 @@
     </form>
     <br>
 
+    <form action="{% url 'index' %}" method="get">
+      <div>
+        <label for="serchInput">Search</label><br>
+        <input id="searchInput" type="search" name="q" value="{{ query|default_if_none:'' }}" placeholder="Search tasks">
+        <button type="submit">Search</button>
+      </div>
+    </form>
+
     <div>
       <a href="{% url 'index' %}?order=due">Sort by Due Date</a> |
       <a href="{% url 'index' %}?order=post">Sort by Posted Date</a>
