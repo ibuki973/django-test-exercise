@@ -1,0 +1,14 @@
+h1{
+   color : #68c3d5fd;
+   text-decoration: underline;
+   padding: 10px 20px 10px 20px
+}
+
+body{
+    background-color: #cfdacc;
+}
+
+li{
+    display: inline-block;
+    text-align : center;
+}
